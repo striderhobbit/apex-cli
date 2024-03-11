@@ -144,7 +144,7 @@ export class DefaultService {
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,
                 observe: observe,
-                transferCache: localVarTransferCache,
+                // transferCache: localVarTransferCache,
                 reportProgress: reportProgress
             }
         );
