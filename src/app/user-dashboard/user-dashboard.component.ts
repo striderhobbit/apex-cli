@@ -16,6 +16,10 @@ export class UserDashboardComponent {
     public defaultService: DefaultService,
     public router: Router
   ) {
+    this.getUserDashboard();
+  }
+
+  getUserDashboard(): void {
     this.defaultService.getUserDashboard().subscribe({
       next: (userDashboard) => (this.userDashboard = userDashboard),
       error: (error) => {
