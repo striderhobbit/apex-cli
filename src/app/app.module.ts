@@ -4,15 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { BrowserModule } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { ApiModule, BASE_PATH } from 'src/openapi';
+import { ApiModule, Configuration } from 'src/openapi';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { UserComponent } from './user/user.component';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { UserLoginComponent } from './user-login/user-login.component';
 
 @NgModule({
-  declarations: [AppComponent, UserComponent],
+  declarations: [AppComponent, UserLoginComponent, UserDashboardComponent],
   imports: [
-    ApiModule,
+    ApiModule.forRoot(() => new Configuration({ basePath: '' })),
     AppRoutingModule,
     BrowserModule,
     FormsModule,
@@ -20,10 +21,6 @@ import { UserComponent } from './user/user.component';
     NoopAnimationsModule,
   ],
   providers: [
-    {
-      provide: BASE_PATH,
-      useValue: 'http://localhost:3000',
-    },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: {

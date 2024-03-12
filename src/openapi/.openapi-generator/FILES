@@ -7,8 +7,8 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
-model/getUser404Response.ts
 model/models.ts
-model/user.ts
+model/userCredentials.ts
+model/userDashboard.ts
 param.ts
 variables.ts
