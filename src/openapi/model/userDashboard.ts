@@ -13,5 +13,6 @@
 
 export interface UserDashboard { 
     id: string;
+    name: string;
 }
 
