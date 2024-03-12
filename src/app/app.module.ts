@@ -1,7 +1,9 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ApiModule, Configuration } from 'src/openapi';
@@ -18,6 +20,8 @@ import { UserLoginComponent } from './user-login/user-login.component';
     BrowserModule,
     FormsModule,
     HttpClientModule,
+    MatButtonModule,
+    MatInputModule,
     NoopAnimationsModule,
   ],
   providers: [

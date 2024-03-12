@@ -1,1 +1,16 @@
-<p>user-login works!</p>
+<form (submit)="loginUser()">
+  <mat-form-field>
+    <input [(ngModel)]="credentials.id" matInput name="id" type="text" />
+    <mat-label>User id</mat-label>
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      [(ngModel)]="credentials.password"
+      matInput
+      name="password"
+      type="password"
+    />
+    <mat-label>User password</mat-label>
+  </mat-form-field>
+  <button mat-button type="submit">Login</button>
+</form>
