@@ -7,9 +7,10 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ApiModule, BASE_PATH } from 'src/openapi';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, UserComponent],
   imports: [
     ApiModule,
     AppRoutingModule,

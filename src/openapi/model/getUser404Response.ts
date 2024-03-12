@@ -11,9 +11,7 @@
  */
 
 
-export interface Car { 
-    name: string;
-    cost: number;
-    bodyStyle: string;
+export interface GetUser404Response { 
+    message: string;
 }
 
