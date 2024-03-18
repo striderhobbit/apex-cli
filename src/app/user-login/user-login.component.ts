@@ -1,3 +1,4 @@
+import { HttpStatusCode } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DefaultService, UserCredentials } from 'src/openapi';
@@ -25,6 +26,15 @@ export class UserLoginComponent {
         this.router.navigate(['../dashboard'], {
           relativeTo: this.activatedRoute,
         }),
+      error: (error) => {
+        switch (error.status) {
+          case HttpStatusCode.NotFound:
+            alert(`No such user ${this.credentials.id}`);
+            break;
+          case HttpStatusCode.Forbidden:
+            alert('Wrong password');
+        }
+      },
     });
   }
 }

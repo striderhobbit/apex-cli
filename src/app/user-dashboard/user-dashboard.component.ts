@@ -21,7 +21,15 @@ export class UserDashboardComponent {
 
   getUserDashboard(): void {
     this.defaultService.getUserDashboard().subscribe({
-      next: (userDashboard) => (this.userDashboard = userDashboard),
+      next: (userDashboard) => {
+        if (userDashboard == null) {
+          this.router.navigate(['../login'], {
+            relativeTo: this.activatedRoute,
+          });
+        } else {
+          this.userDashboard = userDashboard;
+        }
+      },
       error: (error) => {
         switch (error.status) {
           case HttpStatusCode.Forbidden:
@@ -30,6 +38,12 @@ export class UserDashboardComponent {
             });
         }
       },
+    });
+  }
+
+  setUserPassword(password: string): void {
+    this.defaultService.setUserPassword({ password }).subscribe({
+      complete: () => alert('Password changed'),
     });
   }
 }

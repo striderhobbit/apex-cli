@@ -1,1 +1,15 @@
-<h1 *ngIf="userDashboard">Welcome, {{ userDashboard.name }}!</h1>
+<div *ngIf="userDashboard">
+  <h1>Welcome, {{ userDashboard.name }}!</h1>
+  <form>
+    <mat-form-field>
+      <input
+        (change)="setUserPassword(password.value); password.value = ''"
+        #password
+        matInput
+        name="password"
+        type="text"
+      />
+      <mat-label>New password</mat-label>
+    </mat-form-field>
+  </form>
+</div>
