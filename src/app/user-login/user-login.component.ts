@@ -1,8 +1,6 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { DefaultService, UserCredentials } from 'src/openapi';
+import { UserCredentials } from 'src/openapi';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-user-login',
@@ -15,25 +13,9 @@ export class UserLoginComponent {
     password: 'foobar',
   };
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private defaultService: DefaultService,
-    private router: Router
-  ) {}
+  constructor(private readonly apiService: ApiService) {}
 
-  protected loginUser(): Subscription {
-    return this.defaultService.loginUser(this.userCredentials).subscribe({
-      complete: () =>
-        this.router.navigate(['../dashboard'], {
-          relativeTo: this.activatedRoute,
-        }),
-      error: (error) => {
-        if (error instanceof HttpErrorResponse) {
-          return alert(error.error);
-        }
-
-        throw error;
-      },
-    });
+  protected async loginUser(): Promise<void> {
+    return this.apiService.loginUser(this.userCredentials);
   }
 }

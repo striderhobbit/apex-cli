@@ -1,8 +1,6 @@
-import { HttpStatusCode } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { DefaultService, UserDashboard } from 'src/openapi';
+import { UserDashboard } from 'src/openapi';
+import { ApiService } from '../api.service';
 
 @Component({
   selector: 'app-user-dashboard',
@@ -12,34 +10,19 @@ import { DefaultService, UserDashboard } from 'src/openapi';
 export class UserDashboardComponent {
   protected userDashboard?: UserDashboard;
 
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private defaultService: DefaultService,
-    private router: Router
-  ) {
+  constructor(private readonly apiService: ApiService) {
     this.getUserDashboard();
   }
 
-  private getUserDashboard(): Subscription {
-    return this.defaultService.getUserDashboard().subscribe({
-      next: (userDashboard) => (this.userDashboard = userDashboard),
-      error: (error) => {
-        switch (error.status) {
-          case HttpStatusCode.Forbidden:
-          case HttpStatusCode.NotFound:
-            return this.router.navigate(['../login'], {
-              relativeTo: this.activatedRoute,
-            });
-        }
+  private async getUserDashboard(): Promise<void> {
+    const userDashboard = await this.apiService.getUserDashboard();
 
-        throw error;
-      },
-    });
+    if (userDashboard != null) {
+      this.userDashboard = userDashboard;
+    }
   }
 
-  protected setUserPassword(password: string): Subscription {
-    return this.defaultService.setUserPassword({ password }).subscribe({
-      complete: () => alert('Password changed'),
-    });
+  protected async setUserPassword(password: string): Promise<void> {
+    return this.apiService.setUserPassword(password);
   }
 }
