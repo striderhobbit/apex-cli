@@ -1,11 +1,11 @@
 <form (submit)="loginUser()">
   <mat-form-field>
-    <input [(ngModel)]="credentials.id" matInput name="id" type="text" />
+    <input [(ngModel)]="userCredentials.id" matInput name="id" type="text" />
     <mat-label>User id</mat-label>
   </mat-form-field>
   <mat-form-field>
     <input
-      [(ngModel)]="credentials.password"
+      [(ngModel)]="userCredentials.password"
       matInput
       name="password"
       type="password"

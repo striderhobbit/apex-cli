@@ -1,4 +1,4 @@
-import { HttpStatusCode } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DefaultService, UserCredentials } from 'src/openapi';
@@ -9,7 +9,7 @@ import { DefaultService, UserCredentials } from 'src/openapi';
   styleUrls: ['./user-login.component.scss'],
 })
 export class UserLoginComponent {
-  credentials: UserCredentials = {
+  userCredentials: UserCredentials = {
     id: 'fa5055fb-ef74-47f8-bb4d-37ed821edc7c',
     password: 'password123',
   };
@@ -21,18 +21,14 @@ export class UserLoginComponent {
   ) {}
 
   loginUser(): void {
-    this.defaultService.loginUser(this.credentials).subscribe({
+    this.defaultService.loginUser(this.userCredentials).subscribe({
       complete: () =>
         this.router.navigate(['../dashboard'], {
           relativeTo: this.activatedRoute,
         }),
       error: (error) => {
-        switch (error.status) {
-          case HttpStatusCode.NotFound:
-            alert(`No such user ${this.credentials.id}`);
-            break;
-          case HttpStatusCode.Forbidden:
-            alert('Wrong password');
+        if (error instanceof HttpErrorResponse) {
+          alert(error.error);
         }
       },
     });
