@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { DefaultService, UserCredentials } from 'src/openapi';
 
 @Component({
@@ -9,27 +10,29 @@ import { DefaultService, UserCredentials } from 'src/openapi';
   styleUrls: ['./user-login.component.scss'],
 })
 export class UserLoginComponent {
-  userCredentials: UserCredentials = {
+  protected readonly userCredentials: UserCredentials = {
     id: 'fa5055fb-ef74-47f8-bb4d-37ed821edc7c',
-    password: 'password123',
+    password: 'foobar',
   };
 
   constructor(
-    public activatedRoute: ActivatedRoute,
-    public defaultService: DefaultService,
-    public router: Router
+    private activatedRoute: ActivatedRoute,
+    private defaultService: DefaultService,
+    private router: Router
   ) {}
 
-  loginUser(): void {
-    this.defaultService.loginUser(this.userCredentials).subscribe({
+  protected loginUser(): Subscription {
+    return this.defaultService.loginUser(this.userCredentials).subscribe({
       complete: () =>
         this.router.navigate(['../dashboard'], {
           relativeTo: this.activatedRoute,
         }),
       error: (error) => {
         if (error instanceof HttpErrorResponse) {
-          alert(error.error);
+          return alert(error.error);
         }
+
+        throw error;
       },
     });
   }

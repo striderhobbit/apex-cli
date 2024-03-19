@@ -3,10 +3,10 @@
   <form>
     <mat-form-field>
       <input
-        (change)="setUserPassword(password.value); password.value = ''"
-        #password
+        (change)="setUserPassword(newPassword.value); newPassword.value = ''"
+        #newPassword
         matInput
-        name="password"
+        name="new-password"
         type="text"
       />
       <mat-label>New password</mat-label>
