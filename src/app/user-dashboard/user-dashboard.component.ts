@@ -21,18 +21,11 @@ export class UserDashboardComponent {
 
   getUserDashboard(): void {
     this.defaultService.getUserDashboard().subscribe({
-      next: (userDashboard) => {
-        if (userDashboard == null) {
-          this.router.navigate(['../login'], {
-            relativeTo: this.activatedRoute,
-          });
-        } else {
-          this.userDashboard = userDashboard;
-        }
-      },
+      next: (userDashboard) => (this.userDashboard = userDashboard),
       error: (error) => {
         switch (error.status) {
           case HttpStatusCode.Forbidden:
+          case HttpStatusCode.NotFound:
             this.router.navigate(['../login'], {
               relativeTo: this.activatedRoute,
             });
