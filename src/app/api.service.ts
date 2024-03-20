@@ -5,7 +5,7 @@ import { Observable, catchError, lastValueFrom, map, tap } from 'rxjs';
 import { DefaultService, UserCredentials, UserDashboard } from 'src/openapi';
 
 interface CustomErrorHandler<U> {
-  (status: HttpStatusCode): Promise<U>;
+  (response: HttpErrorResponse): Promise<U>;
 }
 
 @Injectable({
@@ -25,8 +25,8 @@ export class ApiService {
   }
 
   private get handleAuthorizationError(): CustomErrorHandler<void> {
-    return async (status) => {
-      switch (status) {
+    return async (response) => {
+      switch (response.status) {
         case HttpStatusCode.Forbidden:
         case HttpStatusCode.NotFound:
           await this.router.navigate(['user/login']);
@@ -34,7 +34,7 @@ export class ApiService {
           return;
       }
 
-      throw Error();
+      throw response;
     };
   }
 
@@ -57,7 +57,7 @@ export class ApiService {
         observable.pipe(
           catchError((response: HttpErrorResponse) => {
             if (customErrorHandler != null) {
-              return customErrorHandler(response.status);
+              return customErrorHandler(response);
             }
 
             throw response;
