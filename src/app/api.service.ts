@@ -64,7 +64,7 @@ export class ApiService {
           }),
           catchError(async (response) => {
             if (response instanceof HttpErrorResponse) {
-              return alert(response.error);
+              return alert(response.message + '\n\n' + response.error);
             }
 
             throw response;
