@@ -83,9 +83,15 @@ export class ApiService {
 
   public async setUserPassword(password: string): Promise<void> {
     return this.pipe(
-      this.defaultService
-        .setUserPassword({ password })
-        .pipe(tap(() => alert('Password changed'))),
+      this.defaultService.setUserPassword({ password }).pipe(
+        map(async () => {
+          await this.dialogService.open({
+            type: 'info',
+            title: 'Password changed',
+            body: '',
+          });
+        })
+      ),
       this.handleAuthorizationError
     );
   }

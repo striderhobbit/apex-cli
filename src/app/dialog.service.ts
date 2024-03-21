@@ -14,11 +14,11 @@ export class DialogService {
   constructor(private readonly dialog: MatDialog) {}
 
   public async open(data: DialogData): Promise<boolean | undefined> {
-    const { afterClosed }: DialogRef = this.dialog.open<
+    const dialogRef: DialogRef = this.dialog.open<DialogComponent, DialogData>(
       DialogComponent,
-      DialogData
-    >(DialogComponent, { data });
+      { data }
+    );
 
-    return lastValueFrom(afterClosed());
+    return lastValueFrom(dialogRef.afterClosed());
   }
 }
