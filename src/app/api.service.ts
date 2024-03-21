@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, catchError, lastValueFrom, map, tap } from 'rxjs';
 import { DefaultService, UserCredentials, UserDashboard } from 'src/openapi';
+import { DialogService } from './dialog.service';
 
 interface CustomErrorHandler<U> {
   (response: HttpErrorResponse): Promise<U>;
@@ -14,6 +15,7 @@ interface CustomErrorHandler<U> {
 export class ApiService {
   constructor(
     private readonly defaultService: DefaultService,
+    private readonly dialogService: DialogService,
     private readonly router: Router
   ) {}
 
@@ -62,7 +64,13 @@ export class ApiService {
           }),
           catchError(async (response) => {
             if (response instanceof HttpErrorResponse) {
-              return alert(response.message + '\n\n' + response.error);
+              await this.dialogService.open({
+                type: 'error',
+                title: response.message,
+                body: response.error,
+              });
+
+              return;
             }
 
             throw response;

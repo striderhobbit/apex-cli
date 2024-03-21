@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UserCredentials } from 'src/openapi';
-import { ApiService } from '../api.service';
+import { ApiService } from '../../api.service';
 
 @Component({
   selector: 'app-user-login',
@@ -10,7 +10,7 @@ import { ApiService } from '../api.service';
 export class UserLoginComponent {
   protected readonly credentials: UserCredentials = {
     id: 'fa5055fb-ef74-47f8-bb4d-37ed821edc7c',
-    password: 'foobar',
+    password: 'foobar2',
   };
 
   constructor(private readonly apiService: ApiService) {}

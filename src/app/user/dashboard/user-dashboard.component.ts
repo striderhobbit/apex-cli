@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UserDashboard } from 'src/openapi';
-import { ApiService } from '../api.service';
+import { ApiService } from '../../api.service';
 
 @Component({
   selector: 'app-user-dashboard',
