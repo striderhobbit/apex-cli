@@ -10,7 +10,7 @@ import { ApiService } from '../../api.service';
 export class UserLoginComponent {
   protected readonly credentials: UserCredentials = {
     id: 'fa5055fb-ef74-47f8-bb4d-37ed821edc7c',
-    password: 'foobar2',
+    password: 'foobar',
   };
 
   constructor(private readonly apiService: ApiService) {}
