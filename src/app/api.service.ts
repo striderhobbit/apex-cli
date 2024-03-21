@@ -26,12 +26,10 @@ export class ApiService {
 
   private get handleAuthorizationError(): CustomErrorHandler<void> {
     return async (response) => {
-      switch (response.status) {
-        case HttpStatusCode.Forbidden:
-        case HttpStatusCode.NotFound:
-          await this.router.navigate(['user/login']);
+      if (response.status === HttpStatusCode.Unauthorized) {
+        await this.router.navigate(['user/login']);
 
-          return;
+        return;
       }
 
       throw response;
