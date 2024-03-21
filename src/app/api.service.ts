@@ -36,9 +36,9 @@ export class ApiService {
     };
   }
 
-  public async loginUser(userCredentials: UserCredentials): Promise<void> {
+  public async loginUser(credentials: UserCredentials): Promise<void> {
     return this.pipe(
-      this.defaultService.loginUser(userCredentials).pipe(
+      this.defaultService.loginUser(credentials).pipe(
         map(async () => {
           await this.router.navigate(['user/dashboard']);
         })

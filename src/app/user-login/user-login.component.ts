@@ -8,7 +8,7 @@ import { ApiService } from '../api.service';
   styleUrls: ['./user-login.component.scss'],
 })
 export class UserLoginComponent {
-  protected readonly userCredentials: UserCredentials = {
+  protected readonly credentials: UserCredentials = {
     id: 'fa5055fb-ef74-47f8-bb4d-37ed821edc7c',
     password: 'foobar',
   };
@@ -16,6 +16,6 @@ export class UserLoginComponent {
   constructor(private readonly apiService: ApiService) {}
 
   protected async loginUser(): Promise<void> {
-    return this.apiService.loginUser(this.userCredentials);
+    return this.apiService.loginUser(this.credentials);
   }
 }
