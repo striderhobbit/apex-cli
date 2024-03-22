@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, catchError, lastValueFrom, map, tap } from 'rxjs';
 import { DefaultService, UserCredentials, UserDashboard } from 'src/openapi';
 import { DialogService } from './dialog.service';
+import { WebSocketService } from './web-socket.service';
 
 interface CustomErrorHandler<U> {
   (response: HttpErrorResponse): Promise<U>;
@@ -16,7 +17,8 @@ export class ApiService {
   constructor(
     private readonly defaultService: DefaultService,
     private readonly dialogService: DialogService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly webSocketService: WebSocketService
   ) {}
 
   public async getUserDashboard(): Promise<UserDashboard | void> {
