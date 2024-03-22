@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, catchError, lastValueFrom, map, tap } from 'rxjs';
+import { Observable, catchError, lastValueFrom, map } from 'rxjs';
 import { DefaultService, UserCredentials, UserDashboard } from 'src/openapi';
 import { DialogService } from './dialog.service';
 import { WebSocketService } from './web-socket.service';
@@ -77,7 +77,7 @@ export class ApiService {
 
             throw response;
           }),
-          tap(next)
+          map(next)
         )
       )
     );
