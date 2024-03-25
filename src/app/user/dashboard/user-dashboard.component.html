@@ -11,5 +11,12 @@
       />
       <mat-label>New password</mat-label>
     </mat-form-field>
+    <button (click)="logoutUser()" mat-button type="button">Logout</button>
+    <button (click)="refreshUserSession()" mat-button type="button">
+      Refresh
+    </button>
+    <button (click)="sendMessage()" mat-button type="button">
+      Send message
+    </button>
   </form>
 </div>

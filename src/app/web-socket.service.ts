@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { WebSocket } from '@shared/ws';
-import { concatMap, retry } from 'rxjs';
+import { Subject, concatMap, retry } from 'rxjs';
 import { webSocket } from 'rxjs/webSocket';
 import { DialogService } from './dialog.service';
 
@@ -8,13 +8,32 @@ import { DialogService } from './dialog.service';
   providedIn: 'root',
 })
 export class WebSocketService {
+  private webSocketSubject!: Subject<WebSocket.Message>;
+
   constructor(private readonly dialogService: DialogService) {
-    webSocket<WebSocket.Message>({
-      url: 'ws://localhost:3001',
+    this.connect();
+
+    setInterval(
+      () =>
+        this.sendMessage({
+          type: 'text',
+          subType: 'info',
+          body: 'pong',
+        }),
+      1e3
+    );
+  }
+
+  private connect(): void {
+    (this.webSocketSubject = webSocket<WebSocket.Message>({
+      url: 'wss://localhost:3000',
       openObserver: {
         next: () => console.info('[web-socket-server] Connected.'),
       },
-    })
+      closeObserver: {
+        next: () => console.info('[web-socket-server] Connection closed.'),
+      },
+    }))
       .pipe(
         retry({ delay: 1e3 }),
         concatMap(async (message) => {
@@ -28,15 +47,16 @@ export class WebSocketService {
                 });
               }
           }
+
+          return message;
         })
       )
       .subscribe({
-        error: (error) => {
-          switch (error.type) {
-            case 'close':
-              console.info('[web-socket-server] Connection closed.');
-          }
-        },
+        complete: () => this.connect(),
       });
+  }
+
+  public sendMessage(message: WebSocket.Message): void {
+    this.webSocketSubject.next(message);
   }
 }

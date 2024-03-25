@@ -1,7 +1,7 @@
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, catchError, lastValueFrom, map } from 'rxjs';
+import { Observable, catchError, concat, lastValueFrom, map } from 'rxjs';
 import { DefaultService, UserCredentials, UserDashboard } from 'src/openapi';
 import { DialogService } from './dialog.service';
 import { WebSocketService } from './web-socket.service';
@@ -46,6 +46,25 @@ export class ApiService {
         map(async () => {
           await this.router.navigate(['user/dashboard']);
         })
+      )
+    );
+  }
+
+  public async logoutUser(): Promise<void> {
+    return this.pipe(
+      this.defaultService.logoutUser().pipe(
+        map(async () => {
+          await this.router.navigate(['user/login']);
+        })
+      )
+    );
+  }
+
+  public async refreshUserSession(credentials: UserCredentials): Promise<void> {
+    return this.pipe(
+      concat(
+        this.defaultService.logoutUser(),
+        this.defaultService.loginUser(credentials)
       )
     );
   }
